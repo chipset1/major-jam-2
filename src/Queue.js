@@ -1,3 +1,5 @@
+//https://www.javascripttutorial.net/javascript-queue/
+//https://docs.oracle.com/javase/8/docs/api/java/util/Queue.html
 export default class Queue {
   constructor(){
     this.elements = [];
