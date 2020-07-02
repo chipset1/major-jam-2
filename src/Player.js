@@ -1,0 +1,27 @@
+export default class Player {
+  constructor(p, x, y){
+    this.p = p;
+    this.pos = this.p.createVector(x, y);
+    this.speed = 6;
+    this.size = 64;
+  }
+  update(){
+    if(this.p.keyIsPressed){
+      if(this.p.keyCode === this.p.UP_ARROW) {
+        this.pos.y -= this.speed;
+      }
+      if(this.p.keyCode === this.p.DOWN_ARROW) {
+        this.pos.y += this.speed;
+      }
+      if(this.p.keyCode === this.p.LEFT_ARROW) {
+        this.pos.x -= this.speed;
+      }
+      if(this.p.keyCode === this.p.RIGHT_ARROW) {
+        this.pos.x += this.speed;
+      }
+    }
+  }
+  draw(){
+    this.p.rect(this.pos.x, this.pos.y, this.size, this.size);
+  }
+}

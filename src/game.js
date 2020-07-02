@@ -1,17 +1,20 @@
 import p5 from "p5";
 import BattleScreen from "./BattleScreen.js";
+import Player from "./Player.js";
 
 let sketch = (p) =>{
-  let battleScreen;
+  let battleScreen, player;
   p.setup = () => {
-    p.createCanvas(624, 624);
+    p.createCanvas(640, 640);
+    player = new Player(p, p.width / 2, p.height / 2);
     battleScreen = new BattleScreen(p);
   };
 
   p.draw = () => {
     p.background(255, 0, 0);
     p.text(p.int(p.frameRate()), 10, 10);
-    p.rect(p.mouseX, p.mouseY, 50, 50);
+    player.update() ;
+    player.draw() ;
 
     if(battleScreen.isActive()){
       battleScreen.update();
