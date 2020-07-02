@@ -10,7 +10,7 @@ let sketch = (p) =>{
     p.createCanvas(640, 640);
     player = new Player(p, p.width / 2, p.height / 2);
     battleScreen = new BattleScreen(p);
-    map = new Map(p);
+    map = new Map(p, 0, 0);
   };
 
   p.draw = () => {
@@ -20,6 +20,7 @@ let sketch = (p) =>{
 
     p.push();
     p.translate(-(player.pos.x-(p.width/2)+player.size/2), -(player.pos.y - (p.height/2)+player.size/2));
+    pokemonEncounter();
     if(!battleScreen.isActive()) player.update();
     player.draw();
     map.draw();
@@ -34,6 +35,12 @@ let sketch = (p) =>{
     battleScreen.keyPressed();
     if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), new Pokemon());
   };
+
+  function pokemonEncounter(){
+    if(p.keyIsPressed && !battleScreen.isActive() && p.random(10) < 1) {
+      battleScreen.transitionToScreen(player.getPokemon(), new Pokemon());
+    }
+  }
 };
 
 window.addEventListener("keydown", function(e) {
