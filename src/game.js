@@ -1,6 +1,7 @@
 import p5 from "p5";
 import BattleScreen from "./BattleScreen.js";
 import Player from "./Player.js";
+import Pokemon from "./Pokemon.js";
 import Map from "./Map.js";
 
 let sketch = (p) =>{
@@ -16,11 +17,13 @@ let sketch = (p) =>{
     p.background(255, 0, 0);
     p.text(p.int(p.frameRate()), 10, 10);
     p.text(player.pos, 20, 20);
-    p.translate(-(player.pos.x-(p.width/2)), -(player.pos.y - (p.height/2)));
-    player.update();
+
+    p.push();
+    p.translate(-(player.pos.x-(p.width/2)+player.size/2), -(player.pos.y - (p.height/2)+player.size/2));
+    if(!battleScreen.isActive()) player.update();
     player.draw();
     map.draw();
-
+    p.pop();
     if(battleScreen.isActive()){
       battleScreen.update();
       battleScreen.draw();
@@ -29,7 +32,7 @@ let sketch = (p) =>{
 
   p.keyPressed = () => {
     battleScreen.keyPressed();
-    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen();
+    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), new Pokemon());
   };
 };
 

@@ -1,9 +1,15 @@
+import Pokemon from "./Pokemon.js";
+
 export default class Player {
   constructor(p, x, y){
     this.p = p;
     this.pos = this.p.createVector(x, y);
     this.speed = 6;
     this.size = 64;
+    this.pokemon = new Pokemon(p);
+  }
+  getPokemon(){
+    return this.pokemon;
   }
   update(){
     if (this.p.keyIsDown(this.p.LEFT_ARROW)) {

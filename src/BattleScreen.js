@@ -4,41 +4,36 @@ export default class BattleScreen {
   constructor(p){
     this.p = p;
     this.state = "idle";
-    this.dialogueText = "First message: Battle is\nstarting";
+    this.dialogueText = "Choose an action:";
     this.menuText = ">Fight\nRun";
     this.menuSelection = "fight";
-    this.damageAnimationLength = 1200;
-    this.transitionLength = 4000; // half time fade in other half fade out
+    this.damageAnimationLength = 200;
+    this.transitionLength = 2000; // half time fade in other half fade out
     this.drawScreen = false;
-    this.player = {pos: this.p.createVector(64, 256),
-                   attack: 40,
-                   health: 100,
-                   maxHealth: 100};
-    this.opponent = {pos: this.p.createVector(this.p.width - 64 - 80, 256),
-                     attack: 20,
-                     health: 100,
-                     maxHealth: 100};
+    this.active = false;
+    this.playerPos = this.p.createVector(64, 256);
+    this.opponentPos = this.p.createVector(this.p.width - 64 - 80, 256);
   }
   update(){
     if(this.state === "playerAttack"){
-      this.opponent.health = this.p.max(this.damageMap(this.opponent, this.player), 0);
-      if(this.opponent.health <= 0){
+      this.opponentPokemon.health = this.p.max(this.damageMap(this.opponentPokemon, this.playerPokemon), 0);
+      if(this.opponentPokemon.health <= 0){
         this.dialogueText = "Opponent is dead\nYou won the battle";
         this.state = "won";
       }
-      if(this.isDamageAnimationOver(this.opponent)){
-        this.opponent.health = this.opponent.damageAnimationStartHealth - this.player.attack;
+      if(this.isDamageAnimationOver(this.opponentPokemon)){
+        this.opponentPokemon.health = this.opponentPokemon.damageAnimationStartHealth - this.playerPokemon.attack;
         this.enemyAttackStart();
       }
     }
     if(this.state === "enemyAttack"){
-      this.player.health = this.p.max(this.damageMap(this.player, this.opponent), 0);
-      if(this.player.health <= 0){
+      this.playerPokemon.health = this.p.max(this.damageMap(this.playerPokemon, this.opponentPokemon), 0);
+      if(this.playerPokemon.health <= 0){
         this.dialogueText = "Player name died";
         this.state = "lost";
       }
-      if(this.isDamageAnimationOver(this.player)){
-        this.player.health = this.player.damageAnimationStartHealth - this.opponent.attack;
+      if(this.isDamageAnimationOver(this.playerPokemon)){
+        this.playerPokemon.health = this.playerPokemon.damageAnimationStartHealth - this.opponentPokemon.attack;
         this.dialogueText = "Choose an action:";
         this.state = "idle";
       }
@@ -48,11 +43,11 @@ export default class BattleScreen {
     if(this.drawScreen){
       this.p.background(255);
 
-      this.p.text("player health: " + this.player.health, this.player.pos.x, this.player.pos.y - 16);
+      this.p.text("player health: " + this.playerPokemon.health, this.playerPos.x, this.playerPos.y - 16);
       this.p.rect(64, 256, 50,50);
 
-      this.p.text("opponent health: " + this.opponent.health, this.opponent.pos.x, this.opponent.pos.y - 16);
-      this.p.rect(this.opponent.pos.x, this.opponent.pos.y, 50,50);
+      this.p.text("opponent health: " + this.opponentPokemon.health, this.opponentPos.x, this.opponentPos.y - 16);
+      this.p.rect(this.opponentPos.x, this.opponentPos.y, 50,50);
       UI.drawBottomTextPanel(this.p, this.menuText, {x: this.p.width - 256 + 32,
                                                      width: 256 - 48});
       UI.drawBottomTextPanel(this.p, this.dialogueText, {width: this.p.width - 256});
@@ -63,6 +58,8 @@ export default class BattleScreen {
     return this.p.millis() > entity.damageAnimationStart + this.damageAnimationLength;
   }
   damageMap(entity, attacker){
+    // this is not the right way to do this
+    // small damage amount will take just as long as large damage amounts
     return this.p.int(this.p.map(this.p.millis(),
                                  entity.damageAnimationStart,
                                  entity.damageAnimationStart + this.damageAnimationLength,
@@ -70,14 +67,14 @@ export default class BattleScreen {
                                  entity.damageAnimationStartHealth - attacker.attack));
   }
   playerAttackStart(){
-    this.opponent.damageAnimationStart = this.p.millis();
-    this.opponent.damageAnimationStartHealth = this.opponent.health;
+    this.opponentPokemon.damageAnimationStart = this.p.millis();
+    this.opponentPokemon.damageAnimationStartHealth = this.opponentPokemon.health;
     this.dialogueText = "Player name attacks!";
     this.state = "playerAttack";
   }
   enemyAttackStart(){
-    this.player.damageAnimationStart = this.p.millis();
-    this.player.damageAnimationStartHealth = this.player.health;
+    this.playerPokemon.damageAnimationStart = this.p.millis();
+    this.playerPokemon.damageAnimationStartHealth = this.playerPokemon.health;
     this.dialogueText = "Opponent name attacks!";
     this.state = "enemyAttack";
   }
@@ -100,10 +97,11 @@ export default class BattleScreen {
   drawTransitionToScreen(){
     let transitionOver = ()=>{
       if(this.p.millis() > this.transitionStartTime+this.transitionLength){
-        this.fadeInOutAlpha = 0;
-        this.state = "idle";
         if(this.state === "transitionOut") {
           this.active = false;
+        } else {
+          this.fadeInOutAlpha = 0;
+          this.state = "idle";
         }
       }
     };
@@ -121,11 +119,14 @@ export default class BattleScreen {
     this.p.rect(0,0,this.p.width, this.p.height);
     this.p.pop();
   }
-  transitionToScreen(){
+  transitionToScreen(playerPokemon, opponentPokemon){
     this.transitionStartTime = this.p.millis();
+    this.playerPokemon = playerPokemon;
+    this.opponentPokemon = opponentPokemon;
     this.active= true;
     this.drawScreen = false;
     this.state = "transitionTo";
+    this.dialogueText = "Choose an action:";
   }
   transitionOut(){
     this.transitionStartTime = this.p.millis();
@@ -153,7 +154,9 @@ export default class BattleScreen {
         this.playerAttackStart();
       }
       if(this.p.key === "x" && this.menuSelection === "run"){
-        this.state = "playerRun";
+        this.dialogueText = "You got away!";
+        this.transitionOut();
+        // this.state = "playerRun";
       }
     }
   }
