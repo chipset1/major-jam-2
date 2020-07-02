@@ -6,19 +6,17 @@ export default class Player {
     this.size = 64;
   }
   update(){
-    if(this.p.keyIsPressed){
-      if(this.p.keyCode === this.p.UP_ARROW) {
-        this.pos.y -= this.speed;
-      }
-      if(this.p.keyCode === this.p.DOWN_ARROW) {
-        this.pos.y += this.speed;
-      }
-      if(this.p.keyCode === this.p.LEFT_ARROW) {
-        this.pos.x -= this.speed;
-      }
-      if(this.p.keyCode === this.p.RIGHT_ARROW) {
-        this.pos.x += this.speed;
-      }
+    if (this.p.keyIsDown(this.p.LEFT_ARROW)) {
+      this.pos.x -= this.speed;
+    }
+    if (this.p.keyIsDown(this.p.RIGHT_ARROW)) {
+      this.pos.x += this.speed;
+    }
+    if (this.p.keyIsDown(this.p.UP_ARROW)) {
+      this.pos.y -= this.speed;
+    }
+    if (this.p.keyIsDown(this.p.DOWN_ARROW)) {
+      this.pos.y += this.speed;
     }
   }
   draw(){
