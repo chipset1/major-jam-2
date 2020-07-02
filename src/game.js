@@ -2,15 +2,17 @@ import p5 from "p5";
 import BattleScreen from "./BattleScreen.js";
 
 let sketch = (p) =>{
-  let battleScreen = new BattleScreen(p);
+  let battleScreen;
   p.setup = () => {
     p.createCanvas(624, 624);
+    battleScreen = new BattleScreen(p);
   };
 
   p.draw = () => {
     p.background(255);
     p.text(p.int(p.frameRate()), 10, 10);
     battleScreen.update();
+    battleScreen.draw();
   };
 
   p.keyPressed = () => {
