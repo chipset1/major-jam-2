@@ -1,20 +1,25 @@
 import p5 from "p5";
 import BattleScreen from "./BattleScreen.js";
 import Player from "./Player.js";
+import Map from "./Map.js";
 
 let sketch = (p) =>{
-  let battleScreen, player;
+  let battleScreen, player, map;
   p.setup = () => {
     p.createCanvas(640, 640);
     player = new Player(p, p.width / 2, p.height / 2);
     battleScreen = new BattleScreen(p);
+    map = new Map(p);
   };
 
   p.draw = () => {
     p.background(255, 0, 0);
     p.text(p.int(p.frameRate()), 10, 10);
-    player.update() ;
-    player.draw() ;
+    p.text(player.pos, 20, 20);
+    p.translate(-(player.pos.x-(p.width/2)), -(player.pos.y - (p.height/2)));
+    player.update();
+    player.draw();
+    map.draw();
 
     if(battleScreen.isActive()){
       battleScreen.update();
