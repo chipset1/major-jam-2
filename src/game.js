@@ -37,7 +37,7 @@ let sketch = (p) =>{
   };
 
   function pokemonEncounter(){
-    if(p.keyIsPressed && !battleScreen.isActive() && p.random(10) < 1) {
+    if(p.keyIsPressed && !battleScreen.isActive() && p.random(300) < 1) {
       battleScreen.transitionToScreen(player.getPokemon(), new Pokemon());
     }
   }
