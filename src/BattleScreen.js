@@ -43,11 +43,12 @@ export default class BattleScreen {
     if(this.drawScreen){
       this.p.background(255);
 
-      this.p.text("player health: " + this.playerPokemon.health, this.playerPos.x, this.playerPos.y - 16);
-      this.p.rect(64, 256, 50,50);
+      this.p.text("player pokemon health: " + this.playerPokemon.health, this.playerPos.x, this.playerPos.y - 16);
+      this.playerPokemon.draw(this.playerPos.x, this.playerPos.y);
 
-      this.p.text("opponent health: " + this.opponentPokemon.health, this.opponentPos.x, this.opponentPos.y - 16);
-      this.p.rect(this.opponentPos.x, this.opponentPos.y, 50,50);
+      this.p.text("opponent pokemon health: " + this.opponentPokemon.health, this.opponentPos.x-32, this.opponentPos.y - 16);
+      this.opponentPokemon.draw(this.opponentPos.x, this.opponentPos.y);
+
       UI.drawBottomTextPanel(this.p, this.menuText, {x: this.p.width - 256 + 32,
                                                      width: 256 - 48});
       UI.drawBottomTextPanel(this.p, this.dialogueText, {width: this.p.width - 256});

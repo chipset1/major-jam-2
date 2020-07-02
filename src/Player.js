@@ -6,7 +6,7 @@ export default class Player {
     this.pos = this.p.createVector(x, y);
     this.speed = 6;
     this.size = 64;
-    this.pokemon = new Pokemon(p);
+    this.pokemon = new Pokemon(p, 65);
   }
   getPokemon(){
     return this.pokemon;

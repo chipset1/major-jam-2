@@ -5,10 +5,11 @@ import Pokemon from "./Pokemon.js";
 import Map from "./Map.js";
 
 let sketch = (p) =>{
-  let battleScreen, player, map;
+  let battleScreen, player, map, wildPokemon;
   p.setup = () => {
     p.createCanvas(640, 640);
     player = new Player(p, p.width / 2, p.height / 2);
+    wildPokemon = makeWildPokemon();
     battleScreen = new BattleScreen(p);
     map = new Map(p, 0, 0);
   };
@@ -23,6 +24,7 @@ let sketch = (p) =>{
     pokemonEncounter();
     if(!battleScreen.isActive()) player.update();
     player.draw();
+    wildPokemon.forEach((e, index) =>{ e.draw(index*64, 0);});
     map.draw();
     p.pop();
     if(battleScreen.isActive()){
@@ -33,12 +35,21 @@ let sketch = (p) =>{
 
   p.keyPressed = () => {
     battleScreen.keyPressed();
-    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), new Pokemon());
+    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), p.random(wildPokemon));
   };
+
+  function makeWildPokemon(){
+    let pokemon = [];
+    for(let i = 0; i < 25; i++){
+      // B-Z
+      pokemon.push(new Pokemon(p, 66+i));
+    }
+    return pokemon;
+  }
 
   function pokemonEncounter(){
     if(p.keyIsPressed && !battleScreen.isActive() && p.random(300) < 1) {
-      battleScreen.transitionToScreen(player.getPokemon(), new Pokemon());
+      battleScreen.transitionToScreen(player.getPokemon(), p.random(wildPokemon));
     }
   }
 };
