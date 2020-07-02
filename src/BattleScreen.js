@@ -8,6 +8,8 @@ export default class BattleScreen {
     this.menuText = ">Fight\nRun";
     this.menuSelection = "fight";
     this.damageAnimationLength = 1200;
+    this.transitionLength = 4000; // half time fade in other half fade out
+    this.drawScreen = false;
     this.player = {pos: this.p.createVector(64, 256),
                    attack: 40,
                    health: 100,
@@ -27,7 +29,6 @@ export default class BattleScreen {
       if(this.isDamageAnimationOver(this.opponent)){
         this.opponent.health = this.opponent.damageAnimationStartHealth - this.player.attack;
         this.enemyAttackStart();
-        this.state = "enemyAttack";
       }
     }
     if(this.state === "enemyAttack"){
@@ -44,14 +45,19 @@ export default class BattleScreen {
     }
   }
   draw(){
-    this.p.text("player health: " + this.player.health, this.player.pos.x, this.player.pos.y - 16);
-    this.p.rect(64, 256, 50,50);
+    if(this.drawScreen){
+      this.p.background(255);
 
-    this.p.text("opponent health: " + this.opponent.health, this.opponent.pos.x, this.opponent.pos.y - 16);
-    this.p.rect(this.opponent.pos.x, this.opponent.pos.y, 50,50);
-    UI.drawBottomTextPanel(this.p, this.menuText, {x: this.p.width - 256 + 32,
-                                                   width: 256 - 48});
-    UI.drawBottomTextPanel(this.p, this.dialogueText, {width: this.p.width - 256});
+      this.p.text("player health: " + this.player.health, this.player.pos.x, this.player.pos.y - 16);
+      this.p.rect(64, 256, 50,50);
+
+      this.p.text("opponent health: " + this.opponent.health, this.opponent.pos.x, this.opponent.pos.y - 16);
+      this.p.rect(this.opponent.pos.x, this.opponent.pos.y, 50,50);
+      UI.drawBottomTextPanel(this.p, this.menuText, {x: this.p.width - 256 + 32,
+                                                     width: 256 - 48});
+      UI.drawBottomTextPanel(this.p, this.dialogueText, {width: this.p.width - 256});
+    }
+    this.drawTransitionToScreen();
   }
   isDamageAnimationOver(entity){
     return this.p.millis() > entity.damageAnimationStart + this.damageAnimationLength;
@@ -67,14 +73,72 @@ export default class BattleScreen {
     this.opponent.damageAnimationStart = this.p.millis();
     this.opponent.damageAnimationStartHealth = this.opponent.health;
     this.dialogueText = "Player name attacks!";
+    this.state = "playerAttack";
   }
   enemyAttackStart(){
     this.player.damageAnimationStart = this.p.millis();
     this.player.damageAnimationStartHealth = this.player.health;
     this.dialogueText = "Opponent name attacks!";
+    this.state = "enemyAttack";
+  }
+  mapFadeInOutAlpha(drawScreen){
+    if(this.p.millis() < this.transitionStartTime + (this.transitionLength/2)){
+      this.fadeInOutAlpha = this.p.map(this.p.millis(),
+                                       this.transitionStartTime,
+                                       this.transitionStartTime + (this.transitionLength/2),
+                                       0,
+                                       255);
+    } else{
+      this.drawScreen = drawScreen;
+      this.fadeInOutAlpha = this.p.map(this.p.millis(),
+                                       this.transitionStartTime + (this.transitionLength/2),
+                                       this.transitionStartTime+this.transitionLength,
+                                       255,
+                                       0);
+    }
+  }
+  drawTransitionToScreen(){
+    let transitionOver = ()=>{
+      if(this.p.millis() > this.transitionStartTime+this.transitionLength){
+        this.fadeInOutAlpha = 0;
+        this.state = "idle";
+        if(this.state === "transitionOut") {
+          this.active = false;
+        }
+      }
+    };
+    if(this.state === "transitionTo"){
+      this.mapFadeInOutAlpha(true);
+      transitionOver();
+    }
+    if(this.state === "transitionOut"){
+      this.mapFadeInOutAlpha(false);
+      transitionOver();
+    }
+
+    this.p.push();
+    this.p.fill(255, this.fadeInOutAlpha);
+    this.p.rect(0,0,this.p.width, this.p.height);
+    this.p.pop();
+  }
+  transitionToScreen(){
+    this.transitionStartTime = this.p.millis();
+    this.active= true;
+    this.drawScreen = false;
+    this.state = "transitionTo";
+  }
+  transitionOut(){
+    this.transitionStartTime = this.p.millis();
+    this.state = "transitionOut";
+  }
+  isActive(){
+    return this.active;
   }
   keyPressed(){
-    if(this.state === "won" && this.p.key === "x") console.log("returning to over world");
+    if(this.state === "won" && this.p.key === "x") {
+      this.dialogueText = "Returning to over world";
+      this.transitionOut();
+    }
     if(this.state === "lost" && this.p.key === "x") console.log("showing game over screen");
     if(this.state === "idle"){
       if(this.p.keyCode === this.p.UP_ARROW) {
@@ -87,7 +151,6 @@ export default class BattleScreen {
       }
       if(this.p.key === "x" && this.menuSelection === "fight"){
         this.playerAttackStart();
-        this.state = "playerAttack";
       }
       if(this.p.key === "x" && this.menuSelection === "run"){
         this.state = "playerRun";

@@ -9,14 +9,19 @@ let sketch = (p) =>{
   };
 
   p.draw = () => {
-    p.background(255);
+    p.background(255, 0, 0);
     p.text(p.int(p.frameRate()), 10, 10);
-    battleScreen.update();
-    battleScreen.draw();
+    p.rect(p.mouseX, p.mouseY, 50, 50);
+
+    if(battleScreen.isActive()){
+      battleScreen.update();
+      battleScreen.draw();
+    }
   };
 
   p.keyPressed = () => {
     battleScreen.keyPressed();
+    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen();
   };
 };
 
