@@ -28,6 +28,14 @@ let sketch = (p) =>{
   };
 };
 
+window.addEventListener("keydown", function(e) {
+  // space and arrow keys
+  //https://stackoverflow.com/questions/8916620/disable-arrow-key-scrolling-in-users-browser
+  if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    e.preventDefault();
+  }
+}, false);
+
 function drawTextPanel(p, str){
   let padding = 16,
       width = p.width - (padding * 2),
