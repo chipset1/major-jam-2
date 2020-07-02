@@ -140,7 +140,11 @@ export default class BattleScreen {
       this.dialogueText = "Returning to over world";
       this.transitionOut();
     }
-    if(this.state === "lost" && this.p.key === "x") console.log("showing game over screen");
+    if(this.state === "lost" && this.p.key === "x") {
+      this.dialogueText = "Returning to over world\nand healing pokemon";
+      this.playerPokemon.health = this.playerPokemon.maxHealth;
+      this.transitionOut();
+    }
     if(this.state === "idle"){
       if(this.p.keyCode === this.p.UP_ARROW) {
         this.menuText = ">Fight\nRun";
