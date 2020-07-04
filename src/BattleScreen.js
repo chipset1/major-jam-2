@@ -11,8 +11,8 @@ export default class BattleScreen {
     this.transitionLength = 2000; // half time fade in other half fade out
     this.drawScreen = false;
     this.active = false;
-    this.playerPos = this.p.createVector(64, 256);
-    this.opponentPos = this.p.createVector(this.p.width - 64 - 80, 256);
+    this.playerPos = this.p.createVector(64, 200);
+    this.opponentPos = this.p.createVector(this.p.width - 64 - 180, 200);
   }
   update(){
     if(this.state === "playerAttack"){
@@ -46,7 +46,8 @@ export default class BattleScreen {
       this.p.text("player pokemon health: " + this.playerPokemon.health, this.playerPos.x, this.playerPos.y - 16);
       this.playerPokemon.draw(this.playerPos.x, this.playerPos.y);
 
-      this.p.text("opponent pokemon health: " + this.opponentPokemon.health, this.opponentPos.x-32, this.opponentPos.y - 16);
+
+      this.p.text(this.opponentPokemon.data.name + " health: " + this.opponentPokemon.health, this.opponentPos.x-32, this.opponentPos.y - 16);
       this.opponentPokemon.draw(this.opponentPos.x, this.opponentPos.y);
 
       UI.drawBottomTextPanel(this.p, this.menuText, {x: this.p.width - 256 + 32,

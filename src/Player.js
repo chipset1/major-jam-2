@@ -6,7 +6,12 @@ export default class Player {
     this.pos = this.p.createVector(x, y);
     this.speed = 6;
     this.size = 64;
-    this.pokemon = new Pokemon(p, 65);
+    this.pokemon = new Pokemon(p, spriteSheet, {name: "Saurbulb",
+                                                sprite: {x: 0,
+                                                         y: 39,
+                                                         width:32,
+                                                         height:32,
+                                                         scale: 6}});
     this.spriteSheet = spriteSheet;
   }
   getPokemon(){

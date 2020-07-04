@@ -5,13 +5,19 @@ import Pokemon from "./Pokemon.js";
 import Map from "./Map.js";
 
 let sketch = (p) =>{
-  let battleScreen, player, map, wildPokemon;
+  let battleScreen, player, map, wildPokemon, testPokemon;
   p.setup = () => {
     p.createCanvas(640, 640);
     p.noSmooth();
     let spriteSheet = p.loadImage("assets/sprite-sheet.png");
     player = new Player(p, spriteSheet, p.width / 2, p.height / 2);
     wildPokemon = makeWildPokemon();
+    testPokemon = new Pokemon(p, spriteSheet, {name: "Saurbulb",
+                                               sprite: {x: 0,
+                                                        y: 39,
+                                                        width:32,
+                                                        height:32,
+                                                        scale: 6}});
     battleScreen = new BattleScreen(p);
     map = new Map(p, spriteSheet, 0, 0);
   };
@@ -23,7 +29,7 @@ let sketch = (p) =>{
 
     p.push();
     // p.translate(-(player.pos.x-(p.width/2)+player.size/2), -(player.pos.y - (p.height/2)+player.size/2));
-    if(map.inGrass(player.pos)) pokemonEncounter()
+    // if(map.inGrass(player.pos)) pokemonEncounter()
     if(!battleScreen.isActive()) player.update();
     map.draw();
     player.draw();
@@ -36,14 +42,14 @@ let sketch = (p) =>{
 
   p.keyPressed = () => {
     battleScreen.keyPressed();
-    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), p.random(wildPokemon));
+    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), testPokemon);
   };
 
   function makeWildPokemon(){
     let pokemon = [];
     for(let i = 0; i < 25; i++){
       // B-Z
-      pokemon.push(new Pokemon(p, 66+i));
+      // pokemon.push(new Pokemon(p, 66+i));
     }
     return pokemon;
   }
