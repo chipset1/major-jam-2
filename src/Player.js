@@ -1,12 +1,13 @@
 import Pokemon from "./Pokemon.js";
 
 export default class Player {
-  constructor(p, x, y){
+  constructor(p, spriteSheet, x, y){
     this.p = p;
     this.pos = this.p.createVector(x, y);
     this.speed = 6;
     this.size = 64;
     this.pokemon = new Pokemon(p, 65);
+    this.walkingDownImage = spriteSheet;
   }
   getPokemon(){
     return this.pokemon;
@@ -26,6 +27,14 @@ export default class Player {
     }
   }
   draw(){
-    this.p.rect(this.pos.x, this.pos.y, this.size, this.size);
+    // this.p.push();
+    // this.p.translate(this.pos.x+128, this.pos.y);
+    // this.p.scale(-1, 1);
+    // this.p.image(this.walkingDownImage, 0, 0, this.size, this.size*2, 16, 0, 16, 32);
+    // this.p.pop();
+    const srcImageWidth = 16,
+          srcImageHeight = 16+6;
+    this.p.image(this.walkingDownImage, this.pos.x, this.pos.y, srcImageWidth*4, srcImageHeight*4,
+                 0, 0, srcImageWidth, srcImageHeight);
   }
 }

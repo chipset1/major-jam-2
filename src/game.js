@@ -8,10 +8,12 @@ let sketch = (p) =>{
   let battleScreen, player, map, wildPokemon;
   p.setup = () => {
     p.createCanvas(640, 640);
-    player = new Player(p, p.width / 2, p.height / 2);
+    p.noSmooth();
+    let spriteSheet = p.loadImage("assets/sprite-sheet.png");
+    player = new Player(p, spriteSheet, p.width / 2, p.height / 2);
     wildPokemon = makeWildPokemon();
     battleScreen = new BattleScreen(p);
-    map = new Map(p, 0, 0);
+    map = new Map(p, spriteSheet, 0, 0);
   };
 
   p.draw = () => {
@@ -20,12 +22,11 @@ let sketch = (p) =>{
     p.text(player.pos, 20, 20);
 
     p.push();
-    p.translate(-(player.pos.x-(p.width/2)+player.size/2), -(player.pos.y - (p.height/2)+player.size/2));
-    pokemonEncounter();
+    // p.translate(-(player.pos.x-(p.width/2)+player.size/2), -(player.pos.y - (p.height/2)+player.size/2));
+    if(map.inGrass(player.pos)) pokemonEncounter()
     if(!battleScreen.isActive()) player.update();
-    player.draw();
-    wildPokemon.forEach((e, index) =>{ e.draw(index*64, 0);});
     map.draw();
+    player.draw();
     p.pop();
     if(battleScreen.isActive()){
       battleScreen.update();

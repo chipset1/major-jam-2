@@ -7,7 +7,7 @@ export default class BattleScreen {
     this.dialogueText = "Choose an action:";
     this.menuText = ">Fight\nRun";
     this.menuSelection = "fight";
-    this.damageAnimationLength = 200;
+    this.damageAnimationLength = 1000;
     this.transitionLength = 2000; // half time fade in other half fade out
     this.drawScreen = false;
     this.active = false;
