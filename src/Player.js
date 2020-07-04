@@ -7,7 +7,7 @@ export default class Player {
     this.speed = 6;
     this.size = 64;
     this.pokemon = new Pokemon(p, 65);
-    this.walkingDownImage = spriteSheet;
+    this.spriteSheet = spriteSheet;
   }
   getPokemon(){
     return this.pokemon;
@@ -34,7 +34,7 @@ export default class Player {
     // this.p.pop();
     const srcImageWidth = 16,
           srcImageHeight = 16+6;
-    this.p.image(this.walkingDownImage, this.pos.x, this.pos.y, srcImageWidth*4, srcImageHeight*4,
+    this.p.image(this.spriteSheet, this.pos.x, this.pos.y, srcImageWidth*4, srcImageHeight*4,
                  0, 0, srcImageWidth, srcImageHeight);
   }
 }
