@@ -18,7 +18,7 @@ export default class BattleScreen {
     if(this.state === "playerAttack"){
       this.opponentPokemon.health = this.p.max(this.damageMap(this.opponentPokemon, this.playerPokemon), 0);
       if(this.opponentPokemon.health <= 0){
-        this.dialogueText = "Opponent is dead\nYou won the battle";
+        this.dialogueText = this.opponentPokemon.data.name + " is dead\nYou won the battle";
         this.state = "won";
       }
       if(this.isDamageAnimationOver(this.opponentPokemon)){
@@ -43,7 +43,7 @@ export default class BattleScreen {
     if(this.drawScreen){
       this.p.background(255);
 
-      this.p.text("player pokemon health: " + this.playerPokemon.health, this.playerPos.x, this.playerPos.y - 16);
+      this.p.text("player " + this.playerPokemon.data.name + " health: " + this.playerPokemon.health, this.playerPos.x, this.playerPos.y - 16);
       this.playerPokemon.draw(this.playerPos.x, this.playerPos.y);
 
 
@@ -71,13 +71,13 @@ export default class BattleScreen {
   playerAttackStart(){
     this.opponentPokemon.damageAnimationStart = this.p.millis();
     this.opponentPokemon.damageAnimationStartHealth = this.opponentPokemon.health;
-    this.dialogueText = "Player name attacks!";
+    this.dialogueText = "Player " + this.playerPokemon.data.name + " attacks!";
     this.state = "playerAttack";
   }
   enemyAttackStart(){
     this.playerPokemon.damageAnimationStart = this.p.millis();
     this.playerPokemon.damageAnimationStartHealth = this.playerPokemon.health;
-    this.dialogueText = "Opponent name attacks!";
+    this.dialogueText = "Opponent " + this.opponentPokemon.data.name + "\n attacks!";
     this.state = "enemyAttack";
   }
   mapFadeInOutAlpha(drawScreen){
