@@ -19,14 +19,10 @@ let sketch = (p) =>{
                                                         height: 54,
                                                         scale: 3}});
     battleScreen = new BattleScreen(p);
-    map = new Map(p, spriteSheet, 0, 0);
+    map = new Map(p, spriteSheet);
   };
 
   p.draw = () => {
-    p.background(255, 0, 0);
-    p.text(p.int(p.frameRate()), 10, 10);
-    p.text(player.pos, 20, 20);
-
     p.push();
     // p.translate(-(player.pos.x-(p.width/2)+player.size/2), -(player.pos.y - (p.height/2)+player.size/2));
     // if(map.inGrass(player.pos)) pokemonEncounter();
