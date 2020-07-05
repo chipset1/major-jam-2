@@ -33,7 +33,7 @@ let sketch = (p) =>{
     if(!battleScreen.isActive()) player.update();
     map.draw();
     player.draw();
-    testPokemon.draw(p.width/2, p.height/2);
+    // testPokemon.draw(p.width/2, p.height/2);
     p.pop();
     if(battleScreen.isActive()){
       battleScreen.update();
@@ -43,7 +43,7 @@ let sketch = (p) =>{
 
   p.keyPressed = () => {
     battleScreen.keyPressed();
-    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), testPokemon);
+    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), Object.create(p.random(wildPokemon)));
   };
 
   function makeWildPokemon(spriteSheet){
@@ -71,7 +71,7 @@ let sketch = (p) =>{
 
   function pokemonEncounter(){
     if(p.keyIsPressed && !battleScreen.isActive() && p.random(300) < 1) {
-      battleScreen.transitionToScreen(player.getPokemon(), p.random(wildPokemon));
+      battleScreen.transitionToScreen(player.getPokemon(), Object.create(p.random(wildPokemon)));
     }
   }
 };
