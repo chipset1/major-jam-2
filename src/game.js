@@ -43,7 +43,7 @@ let sketch = (p) =>{
 
   p.keyPressed = () => {
     battleScreen.keyPressed();
-    if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), Object.create(p.random(wildPokemon)));
+    if(p.keyCode === p.ENTER && !battleScreen.isActive()) battleScreen.transitionToScreen(player.getPokemon(), Object.create(p.random(wildPokemon)));
   };
 
   function makeWildPokemon(spriteSheet){
