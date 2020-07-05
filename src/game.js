@@ -12,12 +12,12 @@ let sketch = (p) =>{
     let spriteSheet = p.loadImage("assets/sprite-sheet.png");
     player = new Player(p, spriteSheet, p.width / 2, p.height / 2);
     wildPokemon = makeWildPokemon(spriteSheet);
-    testPokemon = new Pokemon(p, spriteSheet, {name: "Worm-mon",
-                                               sprite: {x: 0,
-                                                        y: 39+32,
-                                                        width:42,
-                                                        height:32,
-                                                        scale: 5}});
+    testPokemon = new Pokemon(p, spriteSheet, {name: "Apple-mon",
+                                               sprite: {x: 43,
+                                                        y: 39+30,
+                                                        width: 77,
+                                                        height: 54,
+                                                        scale: 3}});
     battleScreen = new BattleScreen(p);
     map = new Map(p, spriteSheet, 0, 0);
   };
@@ -60,12 +60,18 @@ let sketch = (p) =>{
                                                        width:42,
                                                        height:32,
                                                        scale: 5}}));
+    pokemon.push(new Pokemon(p, spriteSheet, {name: "Apple-mon",
+                                              sprite: {x: 43,
+                                                       y: 39+30,
+                                                       width: 77,
+                                                       height: 54,
+                                                       scale: 3}}));
     return pokemon;
   }
 
   function pokemonEncounter(){
     if(p.keyIsPressed && !battleScreen.isActive() && p.random(300) < 1) {
-      battleScreen.transitionToScreen(player.getPokemon(), testPokemon);
+      battleScreen.transitionToScreen(player.getPokemon(), p.random(wildPokemon));
     }
   }
 };
