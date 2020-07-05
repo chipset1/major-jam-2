@@ -11,13 +11,13 @@ let sketch = (p) =>{
     p.noSmooth();
     let spriteSheet = p.loadImage("assets/sprite-sheet.png");
     player = new Player(p, spriteSheet, p.width / 2, p.height / 2);
-    wildPokemon = makeWildPokemon();
-    testPokemon = new Pokemon(p, spriteSheet, {name: "Saurbulb",
+    wildPokemon = makeWildPokemon(spriteSheet);
+    testPokemon = new Pokemon(p, spriteSheet, {name: "Worm-mon",
                                                sprite: {x: 0,
-                                                        y: 39,
-                                                        width:32,
+                                                        y: 39+32,
+                                                        width:42,
                                                         height:32,
-                                                        scale: 6}});
+                                                        scale: 5}});
     battleScreen = new BattleScreen(p);
     map = new Map(p, spriteSheet, 0, 0);
   };
@@ -29,10 +29,11 @@ let sketch = (p) =>{
 
     p.push();
     // p.translate(-(player.pos.x-(p.width/2)+player.size/2), -(player.pos.y - (p.height/2)+player.size/2));
-    // if(map.inGrass(player.pos)) pokemonEncounter()
+    // if(map.inGrass(player.pos)) pokemonEncounter();
     if(!battleScreen.isActive()) player.update();
     map.draw();
     player.draw();
+    testPokemon.draw(p.width/2, p.height/2);
     p.pop();
     if(battleScreen.isActive()){
       battleScreen.update();
@@ -45,18 +46,26 @@ let sketch = (p) =>{
     if(p.keyCode === p.ENTER) battleScreen.transitionToScreen(player.getPokemon(), testPokemon);
   };
 
-  function makeWildPokemon(){
+  function makeWildPokemon(spriteSheet){
     let pokemon = [];
-    for(let i = 0; i < 25; i++){
-      // B-Z
-      // pokemon.push(new Pokemon(p, 66+i));
-    }
+    pokemon.push(new Pokemon(p, spriteSheet, {name: "Saurbulb",
+                                              sprite: {x: 0,
+                                                       y: 39,
+                                                       width:32,
+                                                       height:32,
+                                                       scale: 6}}));
+    pokemon.push(new Pokemon(p, spriteSheet, {name: "Worm-mon",
+                                              sprite: {x: 0,
+                                                       y: 39+32,
+                                                       width:42,
+                                                       height:32,
+                                                       scale: 5}}));
     return pokemon;
   }
 
   function pokemonEncounter(){
     if(p.keyIsPressed && !battleScreen.isActive() && p.random(300) < 1) {
-      battleScreen.transitionToScreen(player.getPokemon(), p.random(wildPokemon));
+      battleScreen.transitionToScreen(player.getPokemon(), testPokemon);
     }
   }
 };

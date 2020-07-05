@@ -12,8 +12,10 @@ export default class Pokemon {
     let sprite = this.data.sprite;
     this.p.image(this.spriteSheet, x, y, sprite.width * sprite.scale, sprite.height * sprite.scale,
                  sprite.x, sprite.y, sprite.width, sprite.height);
+    // this.p.push();
     // this.p.noFill();
     // this.p.stroke(255);
     // this.p.rect(x, y, sprite.width, sprite.height);
+    // this.p.pop();
   }
 }
