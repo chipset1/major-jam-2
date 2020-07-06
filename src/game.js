@@ -19,7 +19,7 @@ let sketch = (p) =>{
   p.draw = () => {
     p.push();
     // p.translate(-(player.pos.x-(p.width/2)+player.size/2), -(player.pos.y - (p.height/2)+player.size/2));
-    // if(map.inGrass(player.pos)) pokemonEncounter();
+    if(map.inGrass(player.pos)) pokemonEncounter();
     if(!battleScreen.isActive()) player.update();
     map.draw();
     player.draw();
@@ -59,7 +59,7 @@ let sketch = (p) =>{
   }
 
   function pokemonEncounter(){
-    if(p.keyIsPressed && !battleScreen.isActive() && p.random(300) < 1) {
+    if(p.keyIsPressed && !battleScreen.isActive() && p.random(200) < 1) {
       battleScreen.transitionToScreen(player.getPokemon(), Object.create(p.random(wildPokemon)));
     }
   }
