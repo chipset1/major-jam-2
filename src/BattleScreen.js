@@ -18,7 +18,7 @@ export default class BattleScreen {
     if(this.state === "playerAttack"){
       this.opponentPokemon.health = this.p.max(this.damageMap(this.opponentPokemon, this.playerPokemon), 0);
       if(this.opponentPokemon.health <= 0){
-        this.dialogueText = this.opponentPokemon.data.name + " is dead\nYou won the battle";
+        this.dialogueText = this.opponentPokemon.data.name + " is dead.\nYou won the battle";
         this.state = "won";
       }
       if(this.isDamageAnimationOver(this.opponentPokemon)){
@@ -29,7 +29,7 @@ export default class BattleScreen {
     if(this.state === "enemyAttack"){
       this.playerPokemon.health = this.p.max(this.damageMap(this.playerPokemon, this.opponentPokemon), 0);
       if(this.playerPokemon.health <= 0){
-        this.dialogueText = "Player name died";
+        this.dialogueText = "Player " + this.playerPokemon.data.name + " died";
         this.state = "lost";
       }
       if(this.isDamageAnimationOver(this.playerPokemon)){
