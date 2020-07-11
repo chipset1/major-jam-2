@@ -4,7 +4,7 @@ A limited pokemon game demo made with p5.js. My submission for major-jam-2.
 
 ## Overview
 
-play it here:
+play it here: https://chipset.itch.io/major-jam-2
 
 sprites from:
 
