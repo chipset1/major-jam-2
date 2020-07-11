@@ -1,4 +1,4 @@
-import p5 from "p5";
+import p5 from "p5/lib/p5.min";
 import BattleScreen from "./BattleScreen.js";
 import Player from "./Player.js";
 import Pokemon from "./Pokemon.js";
