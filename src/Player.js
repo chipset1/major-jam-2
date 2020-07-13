@@ -11,7 +11,9 @@ export default class Player {
                                                          y: 39,
                                                          width:32,
                                                          height:32,
-                                                         scale: 6}});
+                                                         scale: 6},
+                                                moves: {tackle: {},
+                                                        growl: {}}});
     this.spriteSheet = spriteSheet;
   }
   getPokemon(){

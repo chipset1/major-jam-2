@@ -8,6 +8,9 @@ export default class Pokemon {
     this.spriteSheet = spriteSheet;
     this.data = data;
   }
+  getMoveNames(){
+    return Object.keys(this.data.moves);
+  }
   draw(x, y){
     let sprite = this.data.sprite;
     this.p.image(this.spriteSheet, x, y, sprite.width * sprite.scale, sprite.height * sprite.scale,

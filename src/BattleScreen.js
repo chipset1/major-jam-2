@@ -1,12 +1,12 @@
 import * as UI from "./UI.js";
+import BattleMenu from "./BattleMenu.js";
 
 export default class BattleScreen {
   constructor(p){
     this.p = p;
+    this.battleMenu = new BattleMenu(p, this);
     this.state = "idle";
     this.dialogueText = "Choose an action:";
-    this.menuText = ">Fight\nRun";
-    this.menuSelection = "fight";
     this.damageAnimationLength = 1000;
     this.transitionLength = 2000; // half time fade in other half fade out
     this.drawScreen = false;
@@ -50,8 +50,7 @@ export default class BattleScreen {
       this.p.text(this.opponentPokemon.data.name + " health: " + this.opponentPokemon.health, this.opponentPos.x-32, this.opponentPos.y - 16);
       this.opponentPokemon.draw(this.opponentPos.x, this.opponentPos.y);
 
-      UI.drawBottomTextPanel(this.p, this.menuText, {x: this.p.width - 256 + 32,
-                                                     width: 256 - 48});
+      this.battleMenu.draw();
       UI.drawBottomTextPanel(this.p, this.dialogueText, {width: this.p.width - 256});
     }
     this.drawTransitionToScreen();
@@ -148,22 +147,7 @@ export default class BattleScreen {
       this.transitionOut();
     }
     if(this.state === "idle"){
-      if(this.p.keyCode === this.p.UP_ARROW) {
-        this.menuText = ">Fight\nRun";
-        this.menuSelection = "fight";
-      }
-      if(this.p.keyCode === this.p.DOWN_ARROW) {
-        this.menuText = "Fight\n>Run";
-        this.menuSelection = "run";
-      }
-      if(this.p.key === "x" && this.menuSelection === "fight"){
-        this.playerAttackStart();
-      }
-      if(this.p.key === "x" && this.menuSelection === "run"){
-        this.dialogueText = "You got away!";
-        this.transitionOut();
-        // this.state = "playerRun";
-      }
+      this.battleMenu.keyPressed();
     }
   }
 }
