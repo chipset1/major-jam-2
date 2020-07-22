@@ -3,51 +3,48 @@ export default class BattleMenu {
   constructor(p, battleScreen){
     this.p = p;
     this.battleScreen = battleScreen;
-    this.menuText = ">Fight\nRun";
-    this.menuSelection = "fight";
-    this.showingMovesMenu = false;
+    this.selectionIndex = 0;
+    this.topMenuItems = ["fight", "run"];
+    this.state = "top";
   }
   draw(){
-    this.displayMoveList(this.battleScreen.playerPokemon.getMoveNames());
-    UI.drawBottomTextPanel(this.p, this.menuText, {x: this.p.width - 256 + 32,
-                                                   width: 256 - 48});
+    let menuText = "";
+    if(this.state === "top"){
+      menuText = this.getMenuText(this.topMenuItems);
+    }
+    if(this.state === "moves"){
+      menuText = this.getMenuText(this.battleScreen.playerPokemon.getMoveNames());
+    }
+    UI.drawBottomTextPanel(this.p, menuText.toUpperCase(), {x: this.p.width - 256 + 32,
+                                                            width: 256 - 48});
   }
-  displayMoveList(moveNames){
-    // only works with if pokemon 2 moves
-    if(this.menuSelection === "move1"){
-      this.menuText = ">" + moveNames[0] + "\n" + moveNames[1];
-    }
-    if(this.menuSelection === "move2"){
-      this.menuText = moveNames[0] + "\n>" + moveNames[1];
-    }
+  getMenuText(menuItems){
+    let menuText = "";
+    this.selectionIndex = this.p.constrain(this.selectionIndex, 0, menuItems.length -1);
+    menuItems.forEach((e, i) => {
+      if(i === this.selectionIndex) menuText += ">";
+      menuText += e + "\n";
+    });
+    return menuText;
+  }
+  topMenuSelection(){
+    return this.topMenuItems[this.selectionIndex];
   }
   keyPressed(){
-    if(this.showingMovesMenu) {
-      if(this.p.keyCode === this.p.UP_ARROW) {
-        this.menuSelection = "move1";
-      }
-      if(this.p.keyCode === this.p.DOWN_ARROW) {
-        this.menuSelection = "move2";
-      }
-    } else {
-      if(this.p.keyCode === this.p.UP_ARROW) {
-        this.menuText = ">Fight\nRun";
-        this.menuSelection = "fight";
-      }
-      if(this.p.keyCode === this.p.DOWN_ARROW) {
-        this.menuText = "Fight\n>Run";
-        this.menuSelection = "run";
-      }
+    if(this.p.keyCode === this.p.UP_ARROW) {
+      this.selectionIndex--;
     }
-    if(this.p.key === "x" && this.menuSelection === "fight") {
-      // this.playerAttackStart();
-      this.showingMovesMenu = true;
-      this.menuSelection = "move1";
+    if(this.p.keyCode === this.p.DOWN_ARROW) {
+      this.selectionIndex++;
     }
-    if(this.p.key === "x" && this.menuSelection === "run") {
-      this.battleScreen.dialogueText = "You got away!";
-      this.battleScreen.transitionOut();
-      // this.state = "playerRun";
+    if(this.state === "top"){
+      if(this.p.key === "x" && this.topMenuSelection() === "fight") {
+        this.state = "moves";
+      }
+      if(this.p.key === "x" && this.topMenuSelection() === "run"){
+        this.battleScreen.dialogueText = "You got away!";
+        this.battleScreen.transitionOut();
+      }
     }
   }
 }
