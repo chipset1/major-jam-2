@@ -1,7 +1,7 @@
 import p5 from "p5/lib/p5.min";
 import BattleScreen from "./BattleScreen.js";
 import Player from "./Player.js";
-import Pokemon from "./Pokemon.js";
+import * as Pokemon from "./Pokemon.js";
 import Map from "./Map.js";
 
 let sketch = (p) =>{
@@ -37,19 +37,19 @@ let sketch = (p) =>{
 
   function makeWildPokemon(spriteSheet){
     let pokemon = [];
-    pokemon.push(new Pokemon(p, spriteSheet, {name: "Saurbulb",
+    pokemon.push(Pokemon.create(spriteSheet, {name: "Saurbulb",
                                               sprite: {x: 0,
                                                        y: 39,
                                                        width:32,
                                                        height:32,
                                                        scale: 6}}));
-    pokemon.push(new Pokemon(p, spriteSheet, {name: "Worm-mon",
+    pokemon.push(Pokemon.create(spriteSheet, {name: "Worm-mon",
                                               sprite: {x: 0,
                                                        y: 39+32,
                                                        width:42,
                                                        height:32,
                                                        scale: 5}}));
-    pokemon.push(new Pokemon(p, spriteSheet, {name: "Apple-mon",
+    pokemon.push(Pokemon.create(spriteSheet, {name: "Apple-mon",
                                               sprite: {x: 43,
                                                        y: 39+30,
                                                        width: 77,

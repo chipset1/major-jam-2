@@ -1,4 +1,5 @@
 import * as UI from "./UI.js";
+import * as Pokemon from "./Pokemon.js";
 import BattleMenu from "./BattleMenu.js";
 
 export default class BattleScreen {
@@ -11,14 +12,16 @@ export default class BattleScreen {
     this.transitionLength = 2000; // half time fade in other half fade out
     this.drawScreen = false;
     this.active = false;
+    this.moveSelected = "";
     this.playerPos = this.p.createVector(64, 200);
     this.opponentPos = this.p.createVector(this.p.width - 64 - 180, 200);
   }
   update(){
-    if(this.state === "playerAttack"){
+    if(this.state === "playerMove"){
+      // this.playerPokemon.moves[this.moveSelected].preform(this);
       this.opponentPokemon.health = this.p.max(this.damageMap(this.opponentPokemon, this.playerPokemon), 0);
       if(this.opponentPokemon.health <= 0){
-        this.dialogueText = this.opponentPokemon.data.name + " is dead.\nYou won the battle";
+        this.dialogueText = this.opponentPokemon.name + " is dead.\nYou won the battle";
         this.state = "won";
       }
       if(this.isDamageAnimationOver(this.opponentPokemon)){
@@ -29,7 +32,7 @@ export default class BattleScreen {
     if(this.state === "enemyAttack"){
       this.playerPokemon.health = this.p.max(this.damageMap(this.playerPokemon, this.opponentPokemon), 0);
       if(this.playerPokemon.health <= 0){
-        this.dialogueText = "Player " + this.playerPokemon.data.name + " died";
+        this.dialogueText = "Player " + this.playerPokemon.name + " died";
         this.state = "lost";
       }
       if(this.isDamageAnimationOver(this.playerPokemon)){
@@ -43,13 +46,12 @@ export default class BattleScreen {
     if(this.drawScreen){
       this.p.background(255);
 
-      this.p.text("player " + this.playerPokemon.data.name + " health: " + this.playerPokemon.health, this.playerPos.x, this.playerPos.y - 16);
-      this.playerPokemon.draw(this.playerPos.x, this.playerPos.y);
+      this.p.text("player " + this.playerPokemon.name + " health: " + this.playerPokemon.health, this.playerPos.x, this.playerPos.y - 16);
+      Pokemon.draw(this.p, this.playerPokemon, this.playerPos.x, this.playerPos.y);
 
 
-      this.p.text(this.opponentPokemon.data.name + " health: " + this.opponentPokemon.health, this.opponentPos.x-32, this.opponentPos.y - 16);
-      this.opponentPokemon.draw(this.opponentPos.x, this.opponentPos.y);
-
+      this.p.text(this.opponentPokemon.name + " health: " + this.opponentPokemon.health, this.opponentPos.x-32, this.opponentPos.y - 16);
+      Pokemon.draw(this.p, this.opponentPokemon, this.opponentPos.x, this.opponentPos.y);
       this.battleMenu.draw();
       UI.drawBottomTextPanel(this.p, this.dialogueText, {width: this.p.width - 256});
     }
@@ -70,13 +72,13 @@ export default class BattleScreen {
   playerAttackStart(){
     this.opponentPokemon.damageAnimationStart = this.p.millis();
     this.opponentPokemon.damageAnimationStartHealth = this.opponentPokemon.health;
-    this.dialogueText = "Player " + this.playerPokemon.data.name + " attacks!";
+    this.dialogueText = "Player " + this.playerPokemon.name + " attacks!";
     this.state = "playerAttack";
   }
   enemyAttackStart(){
     this.playerPokemon.damageAnimationStart = this.p.millis();
     this.playerPokemon.damageAnimationStartHealth = this.playerPokemon.health;
-    this.dialogueText = "Opponent " + this.opponentPokemon.data.name + "\n attacks!";
+    this.dialogueText = "Opponent " + this.opponentPokemon.name + "\n attacks!";
     this.state = "enemyAttack";
   }
   mapFadeInOutAlpha(drawScreen){

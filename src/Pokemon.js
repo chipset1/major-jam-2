@@ -1,24 +1,17 @@
-export default class Pokemon {
-  constructor(p, spriteSheet, data){
-    this.p = p;
-    this.attack = 40;
-    this.health = 100;
-    this.maxHealth = 100;
+export function create(spriteSheet, data){
+  data.attack = 40;
+  data.health = 100;
+  data.maxHealth = 100;
+  data.spriteSheet = spriteSheet;
+  return data;
+}
 
-    this.spriteSheet = spriteSheet;
-    this.data = data;
-  }
-  getMoveNames(){
-    return Object.keys(this.data.moves);
-  }
-  draw(x, y){
-    let sprite = this.data.sprite;
-    this.p.image(this.spriteSheet, x, y, sprite.width * sprite.scale, sprite.height * sprite.scale,
-                 sprite.x, sprite.y, sprite.width, sprite.height);
-    // this.p.push();
-    // this.p.noFill();
-    // this.p.stroke(255);
-    // this.p.rect(x, y, sprite.width, sprite.height);
-    // this.p.pop();
-  }
+export function getMoveNames(pokemon){
+  return Object.keys(pokemon.moves);
+}
+
+export function draw(p, pokemon, x, y){
+  let sprite = pokemon.sprite;
+  p.image(pokemon.spriteSheet, x, y, sprite.width * sprite.scale, sprite.height * sprite.scale,
+               sprite.x, sprite.y, sprite.width, sprite.height);
 }

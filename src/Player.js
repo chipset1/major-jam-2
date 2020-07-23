@@ -1,4 +1,4 @@
-import Pokemon from "./Pokemon.js";
+import * as Pokemon from "./Pokemon.js";
 
 export default class Player {
   constructor(p, spriteSheet, x, y){
@@ -6,7 +6,7 @@ export default class Player {
     this.pos = this.p.createVector(x, y);
     this.speed = 6;
     this.size = 64;
-    this.pokemon = new Pokemon(p, spriteSheet, {name: "Saurbulb",
+    this.pokemon = Pokemon.create(spriteSheet, {name: "Saurbulb",
                                                 sprite: {x: 0,
                                                          y: 39,
                                                          width:32,

@@ -1,4 +1,6 @@
 import * as UI from "./UI.js";
+import * as Pokemon from "./Pokemon.js";
+
 export default class BattleMenu {
   constructor(p, battleScreen){
     this.p = p;
@@ -13,7 +15,7 @@ export default class BattleMenu {
       menuText = this.getMenuText(this.topMenuItems);
     }
     if(this.state === "moves"){
-      menuText = this.getMenuText(this.battleScreen.playerPokemon.getMoveNames());
+      menuText = this.getMenuText(Pokemon.getMoveNames(this.battleScreen.playerPokemon));
     }
     UI.drawBottomTextPanel(this.p, menuText.toUpperCase(), {x: this.p.width - 256 + 32,
                                                             width: 256 - 48});
