@@ -29,8 +29,16 @@ export default class BattleMenu {
     });
     return menuText;
   }
+  resetMenu(){
+    this.selectionIndex = 0;
+    this.state = "top";
+  }
   topMenuSelection(){
     return this.topMenuItems[this.selectionIndex];
+  }
+  moveMenuSelection(){
+    let moves = Pokemon.getMoveNames(this.battleScreen.playerPokemon);
+    return moves[this.selectionIndex];
   }
   keyPressed(){
     if(this.p.keyCode === this.p.UP_ARROW) {
@@ -39,13 +47,18 @@ export default class BattleMenu {
     if(this.p.keyCode === this.p.DOWN_ARROW) {
       this.selectionIndex++;
     }
-    if(this.state === "top"){
-      if(this.p.key === "x" && this.topMenuSelection() === "fight") {
-        this.state = "moves";
+    if(this.p.key === "x"){
+      if(this.state === "moves"){
+        this.battleScreen.playerPreformMove(this.moveMenuSelection());
       }
-      if(this.p.key === "x" && this.topMenuSelection() === "run"){
-        this.battleScreen.dialogueText = "You got away!";
-        this.battleScreen.transitionOut();
+      if(this.state === "top") {
+        if(this.topMenuSelection() === "fight"){
+          this.state = "moves";
+        }
+        if(this.topMenuSelection() === "run"){
+          this.battleScreen.dialogueText = "You got away!";
+          this.battleScreen.transitionOut();
+        }
       }
     }
   }

@@ -1,8 +1,10 @@
-export function create(spriteSheet, data){
+import Tackle from "./moves/Tackle.js";
+
+export function create(p, data){
   data.attack = 40;
   data.health = 100;
   data.maxHealth = 100;
-  data.spriteSheet = spriteSheet;
+  data.moves = {tackle: new Tackle(p, data)};
   return data;
 }
 
@@ -10,8 +12,8 @@ export function getMoveNames(pokemon){
   return Object.keys(pokemon.moves);
 }
 
-export function draw(p, pokemon, x, y){
+export function draw(p, spriteSheet, pokemon, x, y){
   let sprite = pokemon.sprite;
-  p.image(pokemon.spriteSheet, x, y, sprite.width * sprite.scale, sprite.height * sprite.scale,
+  p.image(spriteSheet, x, y, sprite.width * sprite.scale, sprite.height * sprite.scale,
                sprite.x, sprite.y, sprite.width, sprite.height);
 }

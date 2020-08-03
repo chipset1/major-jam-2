@@ -35,26 +35,26 @@ let sketch = (p) =>{
     if(p.keyCode === p.ENTER && !battleScreen.isActive()) battleScreen.transitionToScreen(player.getPokemon(), Object.create(p.random(wildPokemon)));
   };
 
-  function makeWildPokemon(spriteSheet){
+  function makeWildPokemon(){
     let pokemon = [];
-    pokemon.push(Pokemon.create(spriteSheet, {name: "Saurbulb",
-                                              sprite: {x: 0,
-                                                       y: 39,
-                                                       width:32,
-                                                       height:32,
-                                                       scale: 6}}));
-    pokemon.push(Pokemon.create(spriteSheet, {name: "Worm-mon",
-                                              sprite: {x: 0,
-                                                       y: 39+32,
-                                                       width:42,
-                                                       height:32,
-                                                       scale: 5}}));
-    pokemon.push(Pokemon.create(spriteSheet, {name: "Apple-mon",
-                                              sprite: {x: 43,
-                                                       y: 39+30,
-                                                       width: 77,
-                                                       height: 54,
-                                                       scale: 3}}));
+    pokemon.push(Pokemon.create(p, {name: "Saurbulb",
+                                    sprite: {x: 0,
+                                             y: 39,
+                                             width:32,
+                                             height:32,
+                                             scale: 6}}));
+    pokemon.push(Pokemon.create(p, {name: "Worm-mon",
+                                    sprite: {x: 0,
+                                             y: 39+32,
+                                             width:42,
+                                             height:32,
+                                             scale: 5}}));
+    pokemon.push(Pokemon.create(p, {name: "Apple-mon",
+                                    sprite: {x: 43,
+                                             y: 39+30,
+                                             width: 77,
+                                             height: 54,
+                                             scale: 3}}));
     return pokemon;
   }
 
