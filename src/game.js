@@ -5,11 +5,11 @@ import * as Pokemon from "./Pokemon.js";
 import Map from "./Map.js";
 
 let sketch = (p) =>{
-  let battleScreen, player, map, wildPokemon;
+  let battleScreen, player, map, wildPokemon, spriteSheet;
   p.setup = () => {
     p.createCanvas(640, 640);
     p.noSmooth();
-    let spriteSheet = p.loadImage("assets/sprite-sheet.png");
+    spriteSheet = p.loadImage("assets/sprite-sheet.png");
     player = new Player(p, spriteSheet, p.width / 2, p.height / 2);
     wildPokemon = makeWildPokemon(spriteSheet);
     battleScreen = new BattleScreen(p);
@@ -26,7 +26,7 @@ let sketch = (p) =>{
     p.pop();
     if(battleScreen.isActive()){
       battleScreen.update();
-      battleScreen.draw();
+      battleScreen.draw(spriteSheet);
     }
   };
 
