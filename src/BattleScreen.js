@@ -18,21 +18,21 @@ export default class BattleScreen {
   update(){
     if(this.state === "playerMove"){
       let move = this.playerPokemon.moves[this.moveSelected];
-      move.preform(this.opponentPokemon);
+      let moveIsFinished = move.preform(this.opponentPokemon);
       if(this.opponentPokemon.health <= 0){
         this.dialogueText = this.opponentPokemon.name + " is dead.\nYou won the battle";
         this.state = "won";
-      } else if(move.isFinished()) {
+      } else if(moveIsFinished) {
         this.enemyPreformMove();
       }
     }
     if(this.state === "enemyMove"){
       let move = this.opponentPokemon.moves[this.moveSelected];
-      move.preform(this.playerPokemon);
+      let moveIsFinished = move.preform(this.playerPokemon);
       if(this.playerPokemon.health <= 0){
         this.dialogueText = "Player " + this.playerPokemon.name + " died";
         this.state = "lost";
-      } else if(move.isFinished()){
+      } else if(moveIsFinished){
         this.battleMenu.resetMenu();
         this.dialogueText = "Choose an action:";
         this.state = "idle";

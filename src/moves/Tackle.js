@@ -12,18 +12,15 @@ export default class Tackle {
     // can be the player pokemon when the ai pokemon is using this move
     this.damageAnimationStart = this.p.millis();
     this.damageAnimationStartHealth = opponentPokemon.health;
-    this.finished = false;
   }
   preform(opponentPokemon){
     opponentPokemon.health = this.p.max(this.damageMap(), 0);
 
     if(this.isDamageAnimationOver()){
       opponentPokemon.health = this.damageAnimationStartHealth - this.parentPokemon.attack;
-      this.finished = true;
+      return true;
     }
-  }
-  isFinished(){
-    return this.finished;
+    return false;
   }
   isDamageAnimationOver(entity){
     return this.p.millis() > this.damageAnimationStart + this.damageAnimationLength;
