@@ -18,7 +18,7 @@ export default class BattleScreen {
   update(){
     if(this.state === "playerMove"){
       let move = this.playerPokemon.moves[this.moveSelected];
-      let moveIsFinished = move.preform(this.opponentPokemon);
+      let moveIsFinished = move.preform(this.playerPokemon, this.opponentPokemon);
       if(this.opponentPokemon.health <= 0){
         this.dialogueText = this.opponentPokemon.name + " is dead.\nYou won the battle";
         this.state = "won";
@@ -28,7 +28,7 @@ export default class BattleScreen {
     }
     if(this.state === "enemyMove"){
       let move = this.opponentPokemon.moves[this.moveSelected];
-      let moveIsFinished = move.preform(this.playerPokemon);
+      let moveIsFinished = move.preform(this.opponentPokemon, this.playerPokemon);
       if(this.playerPokemon.health <= 0){
         this.dialogueText = "Player " + this.playerPokemon.name + " died";
         this.state = "lost";
@@ -62,7 +62,8 @@ export default class BattleScreen {
     this.state = "playerMove";
   }
   enemyPreformMove(){
-    let move = this.opponentPokemon.moves["tackle"];
+    this.moveSelected = "tackle";
+    let move = this.opponentPokemon.moves[this.moveSelected];
     move.start(this.playerPokemon);
     this.dialogueText = this.opponentPokemon.name + " used " + this.moveSelected;
     this.state = "enemyMove";

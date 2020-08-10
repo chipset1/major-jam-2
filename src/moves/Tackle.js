@@ -1,7 +1,7 @@
+// https://pokemondb.net/move/tackle
 export default class Tackle {
-  constructor(p, parentPokemon){
+  constructor(p){
     this.p = p;
-    this.parentPokemon = parentPokemon;
     this.damageAnimationStart = 0;
     this.damageAnimationStartHealth = 0;
     this.damageAnimationLength = 1000;
@@ -13,11 +13,11 @@ export default class Tackle {
     this.damageAnimationStart = this.p.millis();
     this.damageAnimationStartHealth = opponentPokemon.health;
   }
-  preform(opponentPokemon){
-    opponentPokemon.health = this.p.max(this.damageMap(), 0);
+  preform(attackingPokemon, opponentPokemon){
+    opponentPokemon.health = this.p.max(this.damageMap(attackingPokemon), 0);
 
     if(this.isDamageAnimationOver()){
-      opponentPokemon.health = this.damageAnimationStartHealth - this.parentPokemon.attack;
+      opponentPokemon.health = this.damageAnimationStartHealth - attackingPokemon.attack;
       return true;
     }
     return false;
@@ -25,13 +25,13 @@ export default class Tackle {
   isDamageAnimationOver(entity){
     return this.p.millis() > this.damageAnimationStart + this.damageAnimationLength;
   }
-  damageMap(){
+  damageMap(attackingPokemon){
     // this is not the right way to do this
     // small damage amount will take just as long as large damage amounts
     return this.p.int(this.p.map(this.p.millis(),
                                  this.damageAnimationStart,
                                  this.damageAnimationStart + this.damageAnimationLength,
                                  this.damageAnimationStartHealth,
-                                 this.damageAnimationStartHealth - this.parentPokemon.attack));
+                                 this.damageAnimationStartHealth - attackingPokemon.attack));
   }
 }
