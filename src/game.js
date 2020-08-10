@@ -11,7 +11,7 @@ let sketch = (p) =>{
     p.noSmooth();
     spriteSheet = p.loadImage("assets/sprite-sheet.png");
     player = new Player(p, spriteSheet, p.width / 2, p.height / 2);
-    wildPokemon = makeWildPokemon(spriteSheet);
+    wildPokemon = makeWildPokemon();
     battleScreen = new BattleScreen(p);
     map = new Map(p, spriteSheet);
   };
