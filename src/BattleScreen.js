@@ -58,14 +58,14 @@ export default class BattleScreen {
     this.moveSelected = moveSelected;
     let move = this.playerPokemon.moves[this.moveSelected];
     move.start(this.opponentPokemon);
-    this.dialogueText = "Player " + this.playerPokemon.name + " used " + this.moveSelected;
+    this.dialogueText = "Player " + this.playerPokemon.name + " used\n" + this.moveSelected.toUpperCase();
     this.state = "playerMove";
   }
   enemyPreformMove(){
-    this.moveSelected = "tackle";
+    this.moveSelected = this.p.random(Pokemon.getMoveNames(this.opponentPokemon));
     let move = this.opponentPokemon.moves[this.moveSelected];
     move.start(this.playerPokemon);
-    this.dialogueText = this.opponentPokemon.name + " used " + this.moveSelected;
+    this.dialogueText = this.opponentPokemon.name + " used\n" + this.moveSelected.toUpperCase();
     this.state = "enemyMove";
   }
   mapFadeInOutAlpha(drawScreen){

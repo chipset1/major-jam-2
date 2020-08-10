@@ -1,5 +1,4 @@
 import * as Pokemon from "./Pokemon.js";
-import Growl from "./moves/Growl.js";
 
 export default class Player {
   constructor(p, spriteSheet, x, y){
@@ -13,7 +12,6 @@ export default class Player {
                                                width:32,
                                                height:32,
                                                scale: 6}});
-    this.pokemon.moves["growl"] = new Growl(p);
     this.spriteSheet = spriteSheet;
   }
   getPokemon(){
