@@ -9,6 +9,8 @@ export default class EventQueue {
     this.queue.push(element);
   }
   update(){
+    //based on
+    //https://github.com/hydrozoa-yt/pokemon/blob/master/src/com/hydrozoa/pokemon/screen/BattleScreen.java#L138
     // there must be a better way to do this
     while(this.currentEvent === undefined || this.currentEvent.isFinished()){
       if(this.queue.peek() === undefined){
