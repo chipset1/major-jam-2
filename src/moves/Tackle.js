@@ -11,7 +11,7 @@ export default class Tackle {
     //opponent is the pokemon that is being attacked
     // can be the player pokemon when the ai pokemon is using this move
     this.damageAnimationStart = this.p.millis();
-    this.damageStartHealth = opponentPokemon.health;
+    this.opponentStartHealth = opponentPokemon.health;
   }
   preform(attackingPokemon, opponentPokemon){
     if(this.p.millis() > this.damageAnimationStart + this.damageInterval){
@@ -19,7 +19,7 @@ export default class Tackle {
       opponentPokemon.health--;
     }
 
-    if(opponentPokemon.health == this.damageStartHealth - attackingPokemon.attack){
+    if(opponentPokemon.health === this.opponentStartHealth  - attackingPokemon.attack){
       return true;
     }
     return false;
