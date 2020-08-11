@@ -1,6 +1,8 @@
 # limited pokemon game
 
-A limited pokemon game demo made with p5.js. My submission for major-jam-2.
+A limited pokemon game made with p5.js. My submission for major-jam-2.
+
+I updated the game since the game jam ended. To see the originally submited version see the 'major-game-2-release' branch
 
 ## Overview
 
