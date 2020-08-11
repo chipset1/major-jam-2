@@ -1,4 +1,4 @@
-# major-jam-2
+ limited pokemon game
 
 A limited pokemon game demo made with p5.js. My submission for major-jam-2.
 
