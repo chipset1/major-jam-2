@@ -8,7 +8,23 @@ I updated the game since the game jam ended. To see the originally submited vers
 
 play it here: https://chipset.itch.io/major-jam-2
 
-sprites from:
+## Other pokemon game resources
+
+Disassembly of Pokémon Red and Blue:
+https://github.com/pret/pokered
+
+Pokemon fan games:
+https://github.com/Tuxemon/Tuxemon
+
+https://github.com/hydrozoa-yt/pokemon <- author makes youtube videos about making the game
+
+Lecture 7 of CS50's Intro to Game Development from Harvard University.
+video: https://youtu.be/gx_qorHxBpI
+get the source code here:
+https://docs.cs50.net/games/2020/x/assignments/7/assignment7
+
+
+## sprites from:
 
 player and grass tile:
 https://opengameart.org/content/zelda-like-tilesets-and-sprites
